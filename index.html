@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+  <title>Simulasi KPR</title>
+  <style>
+    body {
+      background: linear-gradient(to bottom, #bdd9f7, #3dc9f8);
+    }
+    .container {
+      max-width: 400px;
+      margin: 0 auto;
+      background-color: rgb(225, 221, 221);
+      padding: 50px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(61, 60, 60, 0.1);
+    }
+    .container {
+      max-width: 400px;
+      margin: 0 auto;
+    }
+    input[type="number"] {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+    }
+    button {
+      padding: 10px 20px;
+      background-color: #09cb10;
+      color: rgb(252, 249, 249);
+      border: none;
+      cursor: pointer;
+    }
+    #result {
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Kalkulator KPR</h2>
+    <label class="cl-grey" for="loanAmount">Harga Properti:</label>
+    <input type="number" id="loanAmount" placeholder="Harga Properti (Rp)" required>
+    <label class="cl-grey" for="interestRate">Suku Bunga:</label>
+    <input type="number" id="interestRate" placeholder="Suku Bunga (%)" required>
+    <label for="loanTerm">Jangka Waktu (tahun):</label>
+    <input type="number" id="loanTerm" placeholder="Jangka Waktu" required>
+    <button onclick="calculate()">Hitung Simulasi</button>
+    <div id="result"></div>
+
+    <div class="summary-section"
+     id="summary"></div>
+  </div>
+
+  <script>
+   function calculate() {
+  var loanAmount = document.getElementById("loanAmount").value;
+  var interestRate = document.getElementById("interestRate").value;
+  var loanTerm = document.getElementById("loanTerm").value;
+
+  var monthlyInterestRate = interestRate / 100 / 12;
+  var numberOfPayments = loanTerm * 12;
+
+  var monthlyPayment = (loanAmount * monthlyInterestRate) / (1 - Math.pow(1 + monthlyInterestRate, -numberOfPayments));
+  var totalPayment = monthlyPayment * numberOfPayments;
+  var totalInterest = totalPayment - loanAmount;
+
+  var formattedMonthlyPayment = monthlyPayment.toLocaleString("en-US", { style: "currency", currency: "IDR" });
+  var formattedTotalPayment = totalPayment.toLocaleString("en-US", { style: "currency", currency: "IDR" });
+  var formattedTotalInterest = totalInterest.toLocaleString("en-US", { style: "currency", currency: "IDR" });
+
+    var summaryElement = document.getElementById("summary");
+      summaryElement.innerHTML = "<h3>Ringkasan</h3><hr/>" +
+        "Angsuran per Bulan: " + formattedMonthlyPayment + "<br>" +
+        "Total Pinjaman Pokok: " + formattedTotalPayment + "<br>" +
+        "Total Pinjaman Suku Bunga: " + formattedTotalInterest;
+}
+</script>
+</body>
+<footer>
+  <p>&copy; 2023, Angga Kusuma.</p>
+</footer>
+</html>
